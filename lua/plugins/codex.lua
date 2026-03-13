@@ -11,17 +11,22 @@ return {
         mode = { "n", "t" },
       },
     },
-    opts = {
-      autoinstall = false,
-      border = "rounded",
-      panel = true,
-      width = 0.45,
-      height = 0.9,
-      use_buffer = false,
-      keymaps = {
-        toggle = nil,
-        quit = "<C-q>",
-      },
-    },
+    config = function(_, opts)
+      require("codex_layout").setup(opts)
+    end,
+    opts = function()
+      return {
+        autoinstall = false,
+        border = "rounded",
+        panel = true,
+        width = 0.45,
+        height = 0.9,
+        use_buffer = false,
+        keymaps = {
+          toggle = nil,
+          quit = "<C-q>",
+        },
+      }
+    end,
   },
 }
