@@ -78,6 +78,10 @@ function M.apply(theme, persist)
 end
 
 function M.apply_saved()
+  -- If Omarchy theme is active, let omarchy-theme.lua handle it via AstroUI
+  local omarchy_theme = vim.fn.expand("~/.config/omarchy/current/theme/neovim.lua")
+  if vim.fn.filereadable(omarchy_theme) == 1 then return end
+
   local state = read_state()
   local theme = state and find_theme(state.id) or default_theme
   M.apply(theme, false)
