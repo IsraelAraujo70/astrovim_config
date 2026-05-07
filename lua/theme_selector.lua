@@ -4,6 +4,12 @@ local state_file = vim.fn.stdpath "state" .. "/theme-selector.json"
 
 local themes = {
   {
+    id = "tokyonight-night",
+    label = "Tokyo Night (transparent)",
+    colorscheme = "tokyonight-night",
+    tokyonight = { style = "night", transparent = true, styles = { sidebars = "transparent", floats = "transparent" } },
+  },
+  {
     id = "cursor-dark",
     label = "Cursor Dark",
     colorscheme = "cursor-dark",
@@ -66,6 +72,11 @@ function M.apply(theme, persist)
   if theme.onedark then
     local ok, onedark = pcall(require, "onedark")
     if ok then onedark.setup(theme.onedark) end
+  end
+
+  if theme.tokyonight then
+    local ok, tokyonight = pcall(require, "tokyonight")
+    if ok then tokyonight.setup(theme.tokyonight) end
   end
 
   local ok, err = pcall(vim.cmd.colorscheme, theme.colorscheme)
