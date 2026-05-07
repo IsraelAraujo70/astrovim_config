@@ -16,6 +16,27 @@ do
   end
 end
 
+-- Diagnostics como virtual_lines (igual Zed): erro completo embaixo da linha do
+-- cursor em vez de cortado na ponta. `current_line = true` mostra só da linha
+-- atual pra não poluir.
+vim.diagnostic.config {
+  virtual_lines = { current_line = true },
+  virtual_text = false,
+  update_in_insert = false,
+  severity_sort = true,
+}
+
+-- Inlay hints do LSP: tipos e nomes de parâmetros inline.
+vim.api.nvim_create_autocmd("LspAttach", {
+  desc = "Enable LSP inlay hints",
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    end
+  end,
+})
+
 if vim.fn.executable "codex" == 1 then
   local bun_bin = vim.fn.expand "~/.bun/bin"
   if not vim.env.PATH:match(vim.pesc(bun_bin)) then vim.env.PATH = bun_bin .. ":" .. vim.env.PATH end
